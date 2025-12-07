@@ -15,11 +15,10 @@ interface Props {
   onExportPdf: () => void;
   onExportJson: () => void;
   onImportJson: (file: File, mode: 'merge' | 'replace') => void;
-  canExportPdf: boolean;
-  canExportJson: boolean;
+  hasShots: boolean;
 }
 
-export function ExportPanel({ range, onRangeChange, onExportJson, onExportPdf, onImportJson, canExportJson, canExportPdf }: Props) {
+export function ExportPanel({ range, onRangeChange, onExportJson, onExportPdf, onImportJson, hasShots }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [mode, setMode] = useState<'merge' | 'replace'>('merge');
 
@@ -84,22 +83,10 @@ export function ExportPanel({ range, onRangeChange, onExportJson, onExportPdf, o
         )}
       </div>
       <div className="flex flex-wrap gap-3">
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={onExportPdf}
-          disabled={!canExportPdf}
-          title={canExportPdf ? 'PDF aus dem Zeitraum erstellen' : 'Keine Einträge im Zeitraum'}
-        >
+        <button className="btn btn-primary" type="button" onClick={onExportPdf} disabled={!hasShots}>
           PDF erzeugen
         </button>
-        <button
-          className="btn btn-secondary"
-          type="button"
-          onClick={onExportJson}
-          disabled={!canExportJson}
-          title={canExportJson ? 'Alle Shots als JSON herunterladen' : 'Kein Datensatz vorhanden'}
-        >
+        <button className="btn btn-secondary" type="button" onClick={onExportJson} disabled={!hasShots}>
           Daten exportieren (JSON)
         </button>
         <button className="btn btn-secondary" type="button" onClick={triggerImport}>

@@ -4,9 +4,7 @@ Minimalistische, moderne Web-App für dein Espresso-Tagebuch. Läuft komplett im
 
 ## Features
 - Übersicht aller Shots mit Filter/Sortierung nach Datum und Maschine
-- Übersichts-Kachel mit Gesamtanzahl, gefilterten Einträgen und letztem Shot
 - Formular für neue oder bearbeitbare Shots mit allen relevanten Espresso-Parametern
-- Angabe eines Bohnen-Blends (z. B. 80% Robusta / 20% Arabica)
 - Export als PDF für einen frei wählbaren Zeitraum
 - Backup & Restore als JSON-Datei (ergänzend oder ersetzend)
 - Optionaler Dark Mode
@@ -43,7 +41,6 @@ Die Datei folgt diesem Schema und sollte unverändert importiert werden:
       "id": "uuid",
       "date": "2024-01-01T08:00:00.000Z",
       "bean": "Kaffeesorte",
-      "blendInfo": "80% Robusta / 20% Arabica",
       "roastery": "Optional",
       "dose": 18,
       "grindSize": "Mahlgrad",
@@ -53,6 +50,7 @@ Die Datei folgt diesem Schema und sollte unverändert importiert werden:
       "temperature": 93,
       "machine": "Maschine",
       "basket": "1er" | "2er",
+      "tastingNotes": "Notizen",
       "tastingTags": ["süß", "säurebetont"],
       "expectedProfile": "Erwartung"
     }

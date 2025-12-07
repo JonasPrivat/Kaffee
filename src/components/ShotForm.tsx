@@ -15,11 +15,17 @@ const basketOptions: { label: string; value: BasketSize }[] = [
 
 const tastingTagOptions = ['süß', 'säurebetont', 'schokoladig', 'bitter', 'nussig', 'balanciert'];
 
+function parseTags(value: string) {
+  return value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
 const emptyShot: Shot = {
   id: '',
   date: new Date().toISOString(),
   bean: '',
-  blendInfo: '',
   roastery: '',
   dose: 18,
   grindSize: '',
@@ -29,6 +35,7 @@ const emptyShot: Shot = {
   temperature: 93,
   machine: '',
   basket: '2er',
+  tastingNotes: '',
   tastingTags: [],
   expectedProfile: ''
 };
@@ -60,7 +67,7 @@ export function ShotForm({ onSave, editing, machines, onCancelEdit }: Props) {
     event.preventDefault();
     const id = shot.id || crypto.randomUUID();
     const machineValue = customMachine || shot.machine || machineOptions[0] || 'Unbekannt';
-    onSave({ ...shot, id, machine: machineValue, tastingTags: shot.tastingTags });
+    onSave({ ...shot, id, machine: machineValue, tastingTags: parseTags(shot.tastingTags.join(',')) });
     setShot({ ...emptyShot, id: '', date: new Date().toISOString(), machine: machineValue });
     setCustomMachine('');
   }
@@ -97,15 +104,6 @@ export function ShotForm({ onSave, editing, machines, onCancelEdit }: Props) {
             onChange={(e) => updateField('bean', e.target.value)}
             placeholder="z. B. Ethiopia Guji"
             required
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="blendInfo">Bohnen-Blend / Mischung</label>
-          <input
-            id="blendInfo"
-            value={shot.blendInfo || ''}
-            onChange={(e) => updateField('blendInfo', e.target.value)}
-            placeholder="z. B. Aribo, 80% Robusta / 20% Arabica"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -221,7 +219,13 @@ export function ShotForm({ onSave, editing, machines, onCancelEdit }: Props) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium text-stone-800 dark:text-stone-200">Geschmacks-Tags (anklicken)</p>
+          <label htmlFor="tasting">Geschmacksprofil (wahrgenommen)</label>
+          <textarea
+            id="tasting"
+            rows={2}
+            value={shot.tastingNotes}
+            onChange={(e) => updateField('tastingNotes', e.target.value)}
+          />
           <div className="flex flex-wrap gap-2">
             {tastingTagOptions.map((tag) => (
               <button
@@ -241,6 +245,12 @@ export function ShotForm({ onSave, editing, machines, onCancelEdit }: Props) {
               </button>
             ))}
           </div>
+          <input
+            className="mt-2"
+            placeholder="Eigene Tags, kommasepariert"
+            value={shot.tastingTags.filter((tag) => !tastingTagOptions.includes(tag)).join(', ')}
+            onChange={(e) => updateField('tastingTags', [...shot.tastingTags.filter((tag) => tastingTagOptions.includes(tag)), ...parseTags(e.target.value)])}
+          />
         </div>
         <div className="md:col-span-2 flex items-center justify-end gap-3 pt-2">
           {editing && (

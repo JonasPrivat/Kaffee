@@ -23,7 +23,6 @@ export function ShotList({ shots, onDelete, onEdit }: Props) {
             <div>
               <p className="text-xs uppercase tracking-wide text-stone-500">{new Date(shot.date).toLocaleString('de-DE')}</p>
               <h3 className="text-lg font-semibold text-stone-900 dark:text-white">{shot.bean}</h3>
-              {shot.blendInfo && <p className="text-sm text-stone-500">{shot.blendInfo}</p>}
               {shot.roastery && <p className="text-sm text-stone-500">{shot.roastery}</p>}
             </div>
             <div className="flex flex-col items-end gap-2">
@@ -71,17 +70,14 @@ export function ShotList({ shots, onDelete, onEdit }: Props) {
               <p className="text-stone-600 dark:text-stone-300">{shot.expectedProfile || '–'}</p>
             </div>
             <div>
-              <p className="font-medium text-stone-800 dark:text-stone-100">Geschmacks-Tags</p>
+              <p className="font-medium text-stone-800 dark:text-stone-100">Wahrgenommen</p>
+              <p className="text-stone-600 dark:text-stone-300">{shot.tastingNotes || '–'}</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {shot.tastingTags.length > 0 ? (
-                  shot.tastingTags.map((tag) => (
-                    <span className="badge" key={tag}>
-                      {tag}
-                    </span>
-                  ))
-                ) : (
-                  <span className="text-stone-500">–</span>
-                )}
+                {shot.tastingTags.map((tag) => (
+                  <span className="badge" key={tag}>
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

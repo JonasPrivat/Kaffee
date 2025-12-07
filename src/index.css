@@ -42,22 +42,6 @@ label {
   @apply inline-flex items-center rounded-full bg-stone-100 text-stone-700 dark:bg-stone-700 dark:text-stone-100 px-3 py-1 text-xs font-medium;
 }
 
-.stat {
-  @apply rounded-xl bg-stone-50 dark:bg-stone-900 px-4 py-3 border border-stone-100 dark:border-stone-700;
-}
-
-.stat-label {
-  @apply text-xs uppercase tracking-wide text-stone-500;
-}
-
-.stat-value {
-  @apply text-2xl font-semibold text-stone-900 dark:text-white;
-}
-
-.stat-hint {
-  @apply text-sm text-stone-600 dark:text-stone-300;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 }

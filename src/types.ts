@@ -4,7 +4,6 @@ export interface Shot {
   id: string;
   date: string; // ISO timestamp
   bean: string;
-  blendInfo?: string;
   roastery?: string;
   dose: number;
   grindSize: string;
@@ -14,6 +13,7 @@ export interface Shot {
   temperature: number;
   machine: string;
   basket: BasketSize;
+  tastingNotes: string;
   tastingTags: string[];
   expectedProfile: string;
 }
