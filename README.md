@@ -4,7 +4,6 @@ Minimalistische, moderne Web-App für dein Espresso-Tagebuch. Läuft komplett im
 
 ## Features
 - Übersicht aller Shots mit Filter/Sortierung nach Datum und Maschine
-- Übersichts-Kachel mit Gesamtanzahl, gefilterten Einträgen und letztem Shot
 - Formular für neue oder bearbeitbare Shots mit allen relevanten Espresso-Parametern
 - Export als PDF für einen frei wählbaren Zeitraum
 - Backup & Restore als JSON-Datei (ergänzend oder ersetzend)

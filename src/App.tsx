@@ -3,7 +3,6 @@ import { FilterBar } from './components/FilterBar';
 import { ExportPanel, type DateRange } from './components/ExportPanel';
 import { ShotForm } from './components/ShotForm';
 import { ShotList } from './components/ShotList';
-import { Overview } from './components/Overview';
 import { useLocalStorage } from './hooks';
 import { Shot, ShotImportFile } from './types';
 import jsPDF from 'jspdf';
@@ -147,8 +146,6 @@ export default function App() {
 
   const displayShots = useMemo(() => filterByRange(filteredShots, range), [filteredShots, range]);
 
-  const hasShotsInView = displayShots.length > 0;
-
   function handleSave(shot: Shot) {
     setShots((prev) => {
       const exists = prev.find((entry) => entry.id === shot.id);
@@ -172,31 +169,11 @@ export default function App() {
         throw new Error('Ungültiges Format');
       }
       const merged = mode === 'replace' ? data.shots : [...shots, ...data.shots];
-      const normalized = merged.map((shot) => ({
-        ...shot,
-        id: shot.id || crypto.randomUUID()
-      }));
-      setShots(normalized);
+      setShots(merged);
     } catch (error) {
       alert('Import fehlgeschlagen. Bitte gültige JSON-Datei verwenden.');
       console.error(error);
     }
-  }
-
-  function handleExportPdf() {
-    if (!hasShotsInView) {
-      alert('Keine Shots im gewählten Zeitraum. Bitte Filter anpassen.');
-      return;
-    }
-    exportPdf(displayShots, range);
-  }
-
-  function handleExportJson() {
-    if (!shots.length) {
-      alert('Keine Shots zum Exportieren vorhanden.');
-      return;
-    }
-    exportJson(shots);
   }
 
   return (
@@ -215,7 +192,6 @@ export default function App() {
       </header>
 
       <ShotForm onSave={handleSave} editing={editing} machines={machines} onCancelEdit={() => setEditing(null)} />
-      <Overview shots={shots} visibleShots={displayShots} />
       <FilterBar
         search={search}
         onSearch={setSearch}
@@ -228,11 +204,10 @@ export default function App() {
       <ExportPanel
         range={range}
         onRangeChange={setRange}
-        onExportPdf={handleExportPdf}
-        onExportJson={handleExportJson}
+        onExportPdf={() => exportPdf(displayShots, range)}
+        onExportJson={() => exportJson(shots)}
         onImportJson={handleImport}
-        canExportPdf={hasShotsInView}
-        canExportJson={shots.length > 0}
+        hasShots={shots.length > 0}
       />
       <ShotList shots={displayShots} onDelete={handleDelete} onEdit={setEditing} />
     </main>
